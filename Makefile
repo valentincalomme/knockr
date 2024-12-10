@@ -32,6 +32,7 @@ build:
 
 .PHONY: publish # Publish the package
 publish:
+	make build
 	UV_PUBLISH_TOKEN=${UV_PUBLISH_TOKEN} uv publish
 
 .PHONY: lock # Lock the dependency versions

@@ -19,13 +19,14 @@ jobs:
           - windows
           - ubuntu
         python-version:
+          - "3.10"
+          - "3.11"
           - "3.12"
+          - "3.13"
         uv-version:
           - "0.5.7"
 
     runs-on: ${{ matrix.os }}-latest
-    env:
-      VERSION: "1.2.3"
 
     steps:
       - name: Checkout

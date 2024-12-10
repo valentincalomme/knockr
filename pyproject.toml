@@ -4,8 +4,20 @@ readme = "README.md"
 authors = [{ name = "Valentin Calomme", email = "dev@valentincalomme.com" }]
 requires-python = ">=3.10"
 description = "A simple Python tool to quickly check if URLs are live and accessible."
-
 dynamic = ["version"]
+
+classifiers = [
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
 
 dependencies = []
 
