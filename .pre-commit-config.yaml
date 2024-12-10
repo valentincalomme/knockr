@@ -1,0 +1,74 @@
+fail_fast: true
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.5.7
+    hooks:
+      # Compile requirements
+      - id: uv-lock
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.4
+    hooks:
+      # Lint github actions configuration files
+      - id: actionlint
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # Makes sure that no large files are added to the repository by mistake
+      # By default, this means 500KB per file
+      - id: check-added-large-files
+      # Checks that the files have valid Python code
+      - id: check-ast
+      # Checks for files that would conflict in case-insensitive filesystems.
+      - id: check-case-conflict
+      # Checks that .json files are valid
+      - id: check-json
+      # Ensures that no merge conflict strings are present in the repository
+      - id: check-merge-conflict
+      # Checks that .toml files are valid
+      - id: check-toml
+      # Checks that .xml files are valid
+      - id: check-xml
+      # Checks that .yaml files are valid
+      - id: check-yaml
+      # Checks for debugger imports and py37+ `breakpoint()` calls in python source.
+      - id: debug-statements
+      # Detects the presence of private keys.
+      - id: detect-private-key
+      # Makes sure files end in a newline and only a newline.
+      - id: end-of-file-fixer
+      # Trims trailing whitespace.
+      - id: trailing-whitespace
+        # Preserve markdown hard line breaks
+        args: ["--markdown-linebreak-ext", "md"]
+
+  - repo: https://github.com/mrtazz/checkmake.git
+    rev: 0.2.2
+    hooks:
+      # Validate the makefile
+      - id: checkmake
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.2
+    hooks:
+      # Lint the code itself
+      - id: ruff
+        args: ["--no-fix", "--preview"]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    # Lint types
+    hooks:
+      - id: mypy
+        language: system
+
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.390
+    hooks:
+      - id: pyright
+        language: system

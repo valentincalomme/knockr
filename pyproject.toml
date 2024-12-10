@@ -1,0 +1,118 @@
+[project]
+name = "knockr"
+readme = "README.md"
+authors = [{ name = "Valentin Calomme", email = "dev@valentincalomme.com" }]
+requires-python = ">=3.10"
+description = "A simple Python tool to quickly check if URLs are live and accessible."
+
+dynamic = ["version"]
+
+dependencies = []
+
+[project.scripts]
+knockr = "knockr:main"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.1",
+    { include-group = "docs" },
+    { include-group = "qa" },
+    { include-group = "test" },
+
+]
+docs = ["mkdocs-material>=9.5.48"]
+qa = ["mypy>=1.13.0", "pyright>=1.1.390", "ruff>=0.8.2"]
+test = ["pytest>=8.3.4", "pytest-cov>=6.0.0"]
+
+[tool.ruff]
+# https://docs.astral.sh/ruff/configuration/
+
+src = ["src", "tests"]
+# Used to distinguish first- and third-party imports from each other
+# https://docs.astral.sh/ruff/settings/#src
+
+[tool.ruff.format]
+docstring-code-format = true
+# Code in docstrings should also be formatted
+
+[tool.ruff.lint]
+select = ["ALL"]
+# By default, we want all rules to be enabled
+
+ignore = [
+    # No copyright notice required in this application
+    "CPY",
+    # pydoclint doesn't yet allow short docstrings
+    "DOC",
+    # Docstrings in these places are welcome, but not required
+    "D100", # in public module
+    "D104", # in public package
+    "D105", # in magic method
+    "D107", # in `__init__`
+    # Pseudo-random generators aren't a security risk for this application
+    "S311",
+    # Compatibility with the formatter
+    "COM812",
+    "ISC001",
+]
+
+# The following codes aren't ignored, but their fixes are disabled
+unfixable = [
+    "ERA001",
+    # Don't accidentally delete commented-code on save
+    # https://docs.astral.sh/ruff/rules/commented-out-code/
+    "F841",
+    # Don't accidentally delete a variable on save
+    # https://docs.astral.sh/ruff/rules/unused-variable/
+    "F401",
+    # Don't accidentally delete an import on save
+    # https://docs.astral.sh/ruff/rules/unused-import/
+    "RUF100",
+]
+
+[tool.ruff.lint.flake8-builtins]
+builtins-allowed-modules = ["abc", "token"]
+
+[tool.ruff.lint.flake8-type-checking]
+quote-annotations = false
+# We prefer moving imports into type-checking blocks
+runtime-evaluated-base-classes = ["pydantic.BaseModel"]
+# These classes should never be moved into type-checking blocks
+runtime-evaluated-decorators = ["pydantic.validate_call"]
+# Classes and functions decorated by these should not be moved into type-checking blocks
+strict = true
+# All imports that can be moved into type-checking blocks should be flagged
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5
+# ruff defaults to 10 but we prefer flake8's default of 5
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"]
+# Allow assert in tests
+"src/mp4utils/experiments/**/*.py" = ["RUF001"]
+# Ambiguous characters are allowed in experiments
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# [tool.uv.sources]
+# typed-ffmpeg = { path = "../typed-ffmpeg" }
+
+# Don't let ruff guess what docstring convention is used.
+#
+# Below is a description of what Google-style docstrings look like
+# https://google.github.io/styleguide/pyguide.html
+
+[build-system]
+requires = ["hatchling >= 1.12.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/knockr/__init__.py"
+
+[tool.hatch.build]
+ignore-vcs = true
+only-packages = true
+include = ["src/knockr/**/*.py", "src/knockr/py.typed"]
+packages = ["src/knockr"]
